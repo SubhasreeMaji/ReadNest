@@ -1,0 +1,40 @@
+.cup-message{
+    padding:12px;
+    margin-bottom:20px;
+    border-radius:4px;
+    font-size:14px;
+    display:block;
+}
+
+.cup-message.error{
+    background:#fde8e8;
+    border:1px solid #ef4444;
+    color:#b91c1c;
+}
+
+.cup-message.success{
+    background:#dcfce7;
+    border:1px solid #22c55e;
+    color:#166534;
+}
+
+
+.cup-message{
+    display:none;
+    padding:12px;
+    margin-bottom:20px;
+    border-radius:4px;
+    font-size:14px;
+}
+
+.cup-message.error{
+    display:block;
+    background:#fde8e8;
+    color:#b91c1c;
+    border:1px solid #ef4444;
+}
+
+.input-error{
+    border:1px solid #ef4444 !important;
+    box-shadow:0 0 5px rgba(239,68,68,.3);
+}
