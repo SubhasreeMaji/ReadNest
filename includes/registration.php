@@ -78,7 +78,7 @@ if ($result === false) {
 
     $message = "Registration successful";
     $status = "success";
-    wp_safe_redirect(home_url('/login/?registered=success'));
+    wp_safe_redirect(home_url('/signin/'));
 
 }
         }
@@ -247,7 +247,7 @@ ob_start();
         <label class="checkline"><input type="checkbox" required> I agree to the terms &amp; reading policy</label>
       </div>
       <button type="submit" name="cup_register" class="btn-primary">Create account</button>
-      <p class="switch-line">Already keeping notes? <a href="login.html">Sign in instead</a></p>
+      <p class="switch-line">Already keeping notes? <a href="<?php echo home_url('/signin/'); ?>">Sign in instead</a></p>
     </form>
   </div>
   <aside class="auth-side">

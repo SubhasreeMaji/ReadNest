@@ -15,75 +15,54 @@ function cup_login_form() {
     $status  = '';
 
 
-    if(isset($_POST['cup_login'])) {
+    if (isset($_POST['cup_login'])) {
 
+    if (
+        !isset($_POST['cup_login_nonce']) ||
+        !wp_verify_nonce($_POST['cup_login_nonce'], 'cup_login_action')
+    ) {
+        $message = "Invalid request.";
+        $status = "error";
+    } else {
 
         $table = $wpdb->prefix . 'custom_users';
 
-
-        $name = sanitize_text_field(
-            $_POST['cup_name']
-        );
-
-
-        $email = sanitize_email(
-            $_POST['cup_email']
-        );
-
-
+        $email = sanitize_email($_POST['cup_email']);
         $password = $_POST['cup_password'];
 
-
-
-        // Check duplicate email only
-        $exists = $wpdb->get_var(
+        $user = $wpdb->get_row(
             $wpdb->prepare(
-                "SELECT id FROM $table WHERE email=%s",
+                "SELECT * FROM $table WHERE email=%s",
                 $email
             )
         );
 
+        if (!$user) {
 
-        if($exists){
-
-
-            $message = "Email already registered";
+            $message = "Email not found.";
             $status = "error";
 
+        } elseif (!password_verify($password, $user->password)) {
 
-        } else {$result = $wpdb->insert(
-    $table,
-    array(
-        'name'     => $name,
-        'email'    => $email,
-        'password' => password_hash(
-            $password,
-            PASSWORD_DEFAULT
-        )
-    ),
-    array(
-        '%s',
-        '%s',
-        '%s'
-    )
-);
+            $message = "Incorrect password.";
+            $status = "error";
 
+        } else {
 
-if ($result === false) {
+            // Start session if not already started
+            if (!session_id()) {
+                session_start();
+            }
 
-    $message = "Database Error: " . $wpdb->last_error;
-    $status = "error";
+            $_SESSION['cup_user_id'] = $user->id;
+            $_SESSION['cup_user_name'] = $user->name;
+            $_SESSION['cup_user_email'] = $user->email;
 
-} else {
-
-    $message = "Registration successful";
-    $status = "success";
-    wp_safe_redirect(home_url('/login/?registered=success'));
-
-}
+            wp_safe_redirect(home_url('/profile/'));
+            exit;
         }
-
     }
+}
 
 ob_start();
 ?>
@@ -217,7 +196,7 @@ ob_start();
     </div>
   </aside>
   <div class="auth-form-wrap">
-    <form class="card" novalidate>
+    <form class="card" novalidate method="post">
 
     <?php wp_nonce_field('cup_login_action','cup_login_nonce'); ?>
 
@@ -243,13 +222,13 @@ ob_start();
       </div>
 
       
-      <div class="row-between">
+      <!-- <div class="row-between">
         <label class="checkline"><input type="checkbox"> Stay signed in</label>
         <a class="link" href="#">Forgot it?</a>
-      </div>
-      <button type="submit" class="btn-primary">Sign in</button>
+      </div> -->
+      <button type="submit" class="btn-primary" name="cup_login">Sign in</button>
       <div class="divider">or</div>
-      <p class="switch-line">New to ReadNest? <a href="' . home_url('/signup/') . '">Start an account</a></p>
+      <p class="switch-line">New to ReadNest? <a href="<?php echo home_url('/signup/'); ?>">Start an account</a></p>
     </form>
   </div>
 </div>

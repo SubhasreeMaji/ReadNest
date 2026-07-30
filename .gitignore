@@ -1,0 +1,21 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Database exports
+*.sql
+
+# Environment files
+.env
+
+# VS Code
+.vscode/
+
+# Composer
+vendor/
+
+# Node
+node_modules/
