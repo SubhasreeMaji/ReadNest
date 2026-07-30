@@ -199,12 +199,9 @@ ob_start();
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
 </style>
 
-
-
     <div class="auth-shell">
     <div class="auth-form-wrap">
 
-    
     <form class="card" id="registerForm" novalidate method="post">
         <?php wp_nonce_field('cup_register_action','cup_register_nonce'); ?>
 

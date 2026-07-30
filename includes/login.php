@@ -1,6 +1,5 @@
 <?php
 
-
 add_shortcode(
 'user_login',
 'cup_login_form'

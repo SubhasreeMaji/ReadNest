@@ -45,6 +45,7 @@ function cup_profile_form() {
 ?>
 
 
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profile details · ReadNest</title>
